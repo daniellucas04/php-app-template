@@ -2,6 +2,8 @@
 
 namespace App\Utils;
 
+use App\Models\User;
+
 class Session {
     public static function create(array $data) {
         foreach($data as $key => $value) {
@@ -27,5 +29,11 @@ class Session {
 
     public static function check(string $key) {
         return isset($_SESSION[$key]) ? true : false;
+    }
+
+    public static function getUser() {
+        if (self::get('session_token')) {
+            return (new User)->fetchByToken(self::get('session_token'));
+        }
     }
 }

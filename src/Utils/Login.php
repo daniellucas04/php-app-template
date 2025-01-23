@@ -6,7 +6,10 @@ use App\Models\User;
 
 class Login {
     public static function login(string $username, $password) {
-        $userFound = (new User)->fetchUser("username = '{$username}'");
+        $userFound = (new User)->select("id, password")
+            ->where("username = '{$username}'")
+            ->fetch();
+
         if (!$userFound) return false;
         if (!password_verify($password, $userFound[0]->password)) return false;
 
@@ -25,11 +28,11 @@ class Login {
     }
 
     public static function logout() {
-        $userFound = (new User)->fetchByToken(Session::get('session_token'));
         $user = new User();
-        $user->renovate($userFound->id, ['token' => null, 'logged' => 'F']);
+        $userSession = $user->fetchByToken(Session::get('session_token'));
+        $user->renovate($userSession->id, ['token' => null, 'logged' => 'F']);
         
         Session::destroy();
-        View::redirect('login');
+        View::redirect('', 0);
     }
 }

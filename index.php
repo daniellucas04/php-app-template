@@ -27,7 +27,13 @@ $isAdminPage = str_contains($_SERVER['REQUEST_URI'], 'admin');
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css" />
     <link rel="shortcut icon" href="public\favicon.png" type="image/x-icon">
 
-    <title>Movies Review</title>
+    <!-- CANVAS JS -->
+    <script src="https://cdn.canvasjs.com/ga/canvasjs.min.js"></script>
+
+    <!-- CUSTOM JS -->
+    <script src="/src/resources/js/schedule.js"></script>
+
+    <title><?= CLIENT_NAME ?></title>
 </head>
 <body class="bg-zinc-800 text-slate-200">
     <?php

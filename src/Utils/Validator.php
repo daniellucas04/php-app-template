@@ -15,9 +15,11 @@ class Validator {
         }
     }
 
-    public static function deleteUser(string $sessionToken) {
-        $user = (new User)->fetchByToken($sessionToken);
-        if ($user->token === $sessionToken) {
+    public static function deleteUser(int $idUser) {
+        $user = (new User)->select('token, logged')
+            ->where("id = {$idUser}")->fetch()[0];
+
+        if ($user->token === Session::get('session_token')) {
             throw new Exception("You cannot delete yourself.");
         }
 

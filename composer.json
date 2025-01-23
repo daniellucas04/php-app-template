@@ -12,5 +12,7 @@
             "name": "Daniel Lucas"
         }
     ],
-    "require": {}
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
 }
