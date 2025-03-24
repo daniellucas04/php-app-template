@@ -16,7 +16,7 @@
 
 
 -- Copiando estrutura do banco de dados para template
-CREATE DATABASE IF NOT EXISTS `template` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_uca1400_ai_ci */;
+CREATE DATABASE IF NOT EXISTS `template` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 USE `template`;
 
 -- Copiando estrutura para tabela template.modules
@@ -61,245 +61,22 @@ CREATE TABLE IF NOT EXISTS `user` (
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `user_permissions` AFTER INSERT ON `user` FOR EACH ROW BEGIN
-
-
-
-
-
-
-
     DECLARE done INT DEFAULT 0;
-
-
-
-
-
-
-
     DECLARE module_name VARCHAR(255);
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
     DECLARE module_cursor CURSOR FOR 
-
-
-
-
-
-
-
     SELECT name FROM modules;
 
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
     OPEN module_cursor;
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
     read_loop: LOOP
-
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
         FETCH module_cursor INTO module_name;
-
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
         IF done THEN
-
-
-
-
-
-
-
             LEAVE read_loop;
-
-
-
-
-
-
-
         END IF;
-
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
         INSERT INTO permission (id_user, module)
-
-
-
-
-
-
-
         VALUES (NEW.id, module_name);
-
-
-
-
-
-
-
     END LOOP;
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
     CLOSE module_cursor;
-
-
-
-
-
-
-
 END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;

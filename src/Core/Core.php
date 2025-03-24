@@ -15,19 +15,19 @@ class Core {
         $routerFound = false;
 
         foreach ($routes as $path => $controller) {
+            $namespace = $controller[0];
+            $method = $controller[1] ?? 'index';
+
             $pattern = '#^' . preg_replace('/{id}/', '(\w+)', $path) . '$#';
 
             if (preg_match($pattern, $url, $matches)) {
                 array_shift($matches);
 
-                $routerFound = true;
-
-                [$currentController, $action] = explode('@', $controller);
+                $routerFound = true;                
                 $matches['post'] = $_POST ?? null;
-
-                $currentController = 'App\\Controllers\\' . $currentController; 
-                $extendController = new $currentController;
-                $extendController->$action($matches);
+                
+                $extendController = new $namespace;
+                $extendController->$method($matches);
             }
         }
 
